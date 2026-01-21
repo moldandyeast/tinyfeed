@@ -657,6 +657,57 @@ export function baseHtml(content: string, options: { title?: string; scripts?: s
       animation: pulse 1.5s infinite;
     }
 
+    /* Global Nav */
+    .global-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-brand:hover {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.35rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a.active {
+      color: var(--text);
+      border-bottom-color: var(--accent);
+    }
+
+    .nav-links a.nav-hidden {
+      display: none;
+    }
+
     /* Responsive */
     @media (max-width: 480px) {
       html {
@@ -668,17 +719,63 @@ export function baseHtml(content: string, options: { title?: string; scripts?: s
       }
 
       .landing {
-        padding-top: 15vh;
+        padding-top: 10vh;
+      }
+
+      .nav-links {
+        gap: 0.75rem;
+      }
+
+      .nav-links a {
+        font-size: 0.75rem;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <nav class="global-nav" id="global-nav">
+      <a href="/" class="nav-brand">tinyfeed</a>
+      <div class="nav-links">
+        <a href="/home" id="nav-home" class="nav-hidden">home</a>
+        <a href="#" id="nav-my-feed" class="nav-hidden">my feed</a>
+      </div>
+    </nav>
     ${content}
   </div>
   <div class="toast" id="toast"></div>
   <script>
+    // Global nav state
+    (function initNav() {
+      const myFeed = JSON.parse(localStorage.getItem('myFeed') || 'null');
+      const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+      const path = window.location.pathname;
+
+      // Show home link if has contacts
+      const homeLink = document.getElementById('nav-home');
+      if (contacts.length > 0 || path === '/home') {
+        homeLink.classList.remove('nav-hidden');
+        if (path === '/home') homeLink.classList.add('active');
+      }
+
+      // Show my feed link if has feed
+      const myFeedLink = document.getElementById('nav-my-feed');
+      if (myFeed && myFeed.id) {
+        myFeedLink.href = '/f/' + myFeed.id + '#s=' + myFeed.writeKey;
+        myFeedLink.classList.remove('nav-hidden');
+        // Check if viewing own feed
+        if (path === '/f/' + myFeed.id) {
+          myFeedLink.classList.add('active');
+        }
+      }
+
+      // Hide nav on landing page if no feed/contacts
+      const nav = document.getElementById('global-nav');
+      if (path === '/' && !myFeed && contacts.length === 0) {
+        nav.style.display = 'none';
+      }
+    })();
+
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg;

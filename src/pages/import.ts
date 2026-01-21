@@ -30,31 +30,14 @@ export function importPage(baseUrl: string): string {
     // Redirect to feed
     window.location.href = '/f/' + feedId + '#s=' + writeKey;
   }
-
-  // Check if already have a feed
-  const myFeed = JSON.parse(localStorage.getItem('myFeed') || 'null');
-  if (myFeed) {
-    document.getElementById('existing-feed').style.display = 'block';
-    document.getElementById('existing-feed-link').href = '/f/' + myFeed.id + '#s=' + myFeed.writeKey;
-  }
 </script>
 `;
 
   const content = `
     <header class="header">
-      <div class="header-top">
-        <h1 class="feed-name">restore access</h1>
-        <div class="header-actions">
-          <a href="/" class="btn">← back</a>
-        </div>
-      </div>
+      <h1 class="feed-name">restore access</h1>
       <p class="feed-about">paste your private URL to restore access to your feed</p>
     </header>
-
-    <div id="existing-feed" style="display: none; margin-bottom: 2rem; padding: 1rem; background: var(--bg-subtle); border-radius: 6px;">
-      <p style="margin-bottom: 0.5rem;">you already have a feed saved in this browser:</p>
-      <a id="existing-feed-link" href="#">go to my feed →</a>
-    </div>
 
     <form onsubmit="importFeed(event)">
       <div class="edit-field">

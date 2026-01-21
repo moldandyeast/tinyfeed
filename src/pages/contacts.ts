@@ -101,12 +101,7 @@ export function contactsPage(baseUrl: string): string {
 
   const content = `
     <header class="header">
-      <div class="header-top">
-        <h1 class="feed-name">contacts</h1>
-        <div class="header-actions">
-          <a href="/home" class="btn">← home</a>
-        </div>
-      </div>
+      <h1 class="feed-name">contacts</h1>
     </header>
 
     <section id="contacts-list">

@@ -108,17 +108,6 @@ export function homePage(baseUrl: string): string {
     return month + ' ' + day + ', ' + date.getFullYear();
   }
 
-  // Check for own feed and show link
-  function checkMyFeed() {
-    const myFeed = JSON.parse(localStorage.getItem('myFeed') || 'null');
-    if (myFeed) {
-      const myFeedLink = document.getElementById('my-feed-link');
-      myFeedLink.href = '/f/' + myFeed.id + '#s=' + myFeed.writeKey;
-      myFeedLink.style.display = 'inline';
-    }
-  }
-
-  checkMyFeed();
   loadFeeds();
 </script>
 `;
@@ -128,7 +117,7 @@ export function homePage(baseUrl: string): string {
       <div class="header-top">
         <h1 class="feed-name">home</h1>
         <div class="header-actions">
-          <a id="my-feed-link" href="#" class="btn" style="display: none;">my feed</a>
+          <a href="/contacts" class="btn">contacts</a>
         </div>
       </div>
     </header>
@@ -139,7 +128,6 @@ export function homePage(baseUrl: string): string {
 
     <footer class="footer">
       <span id="feed-count">loading...</span>
-      <a href="/contacts">contacts</a>
     </footer>
   `;
 

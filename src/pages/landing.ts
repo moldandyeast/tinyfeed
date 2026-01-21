@@ -5,27 +5,6 @@ import { baseHtml } from '../utils/html';
 export function landingPage(baseUrl: string): string {
   const scripts = `
 <script>
-  // Check if user already has a feed or contacts
-  (function() {
-    const myFeed = JSON.parse(localStorage.getItem('myFeed') || 'null');
-    const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
-
-    if (myFeed && myFeed.id) {
-      const myFeedLink = document.getElementById('nav-my-feed');
-      myFeedLink.href = '/f/' + myFeed.id + '#s=' + myFeed.writeKey;
-      myFeedLink.style.display = 'inline';
-    }
-
-    if (contacts.length > 0) {
-      document.getElementById('nav-home').style.display = 'inline';
-    }
-
-    // Show nav if either exists
-    if ((myFeed && myFeed.id) || contacts.length > 0) {
-      document.getElementById('user-nav').style.display = 'flex';
-    }
-  })();
-
   async function createFeed() {
     const btn = document.getElementById('create-btn');
     btn.disabled = true;
@@ -85,21 +64,6 @@ export function landingPage(baseUrl: string): string {
   }
 </script>
 <style>
-  .user-nav {
-    display: none;
-    justify-content: center;
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-    padding: 1rem;
-    background: var(--bg-subtle);
-    border-radius: 8px;
-  }
-  .user-nav a {
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    display: none;
-  }
-
   .hero {
     text-align: center;
     margin-bottom: 4rem;
@@ -238,11 +202,6 @@ export function landingPage(baseUrl: string): string {
 `;
 
   const content = `
-    <nav class="user-nav" id="user-nav">
-      <a href="/home" id="nav-home">home feed</a>
-      <a href="#" id="nav-my-feed">my feed</a>
-    </nav>
-
     <div class="hero">
       <h1 class="hero-title">tinyfeed</h1>
       <p class="hero-tagline">a feed is a url</p>
