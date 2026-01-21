@@ -198,6 +198,29 @@ export function landingPage(baseUrl: string): string {
     margin: 0 auto;
     line-height: 1.7;
   }
+
+  /* Credits */
+  .credits {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .credits p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+
+  .credits a {
+    color: var(--text-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .credits a:hover {
+    color: var(--accent);
+  }
 </style>
 `;
 
@@ -282,6 +305,13 @@ export function landingPage(baseUrl: string): string {
     <section class="philosophy">
       <p>no likes. no followers count. no engagement metrics. just you, your thoughts, and a URL.</p>
     </section>
+
+    <footer class="credits">
+      <p>
+        set in <a href="https://github.com/productiontype/Newsreader" target="_blank" rel="noopener">Newsreader</a> 
+        & <a href="https://www.jetbrains.com/lp/mono/" target="_blank" rel="noopener">JetBrains Mono</a>
+      </p>
+    </footer>
   `;
 
   return baseHtml(content, { 
