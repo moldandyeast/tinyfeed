@@ -215,6 +215,14 @@ export function baseHtml(content: string, options: { title?: string; scripts?: s
       letter-spacing: -0.02em;
     }
 
+    .post-time a {
+      color: var(--text-muted);
+    }
+
+    .post-time a:hover {
+      color: var(--accent);
+    }
+
     .post-delete {
       font-size: 0.9rem;
       color: var(--text-muted);
@@ -225,20 +233,6 @@ export function baseHtml(content: string, options: { title?: string; scripts?: s
 
     .post-delete:hover {
       opacity: 1;
-    }
-
-    /* Home feed post variant */
-    .post-author {
-      font-weight: 500;
-      margin-bottom: 0.25rem;
-    }
-
-    .post-author a {
-      color: var(--text);
-    }
-
-    .post-author a:hover {
-      color: var(--accent);
     }
 
     /* Footer */

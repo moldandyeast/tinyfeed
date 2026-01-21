@@ -71,13 +71,10 @@ export function homePage(baseUrl: string): string {
 
     postsContainer.innerHTML = posts.slice(0, 100).map(post => \`
       <article class="post">
-        <div class="post-author">
-          <a href="\${post.feedUrl}">\${escapeHtml(post.authorName)}</a>
-        </div>
         <p class="post-content">\${escapeHtml(post.content)}</p>
         \${post.url ? \`<a class="post-link" href="\${escapeHtml(post.url)}" target="_blank" rel="noopener">\${escapeHtml(new URL(post.url).hostname)}</a>\` : ''}
         <div class="post-meta">
-          <time class="post-time">\${formatDate(post.timestamp)}</time>
+          <span class="post-time"><a href="\${post.feedUrl}">\${escapeHtml(post.authorName)}</a> · \${formatDate(post.timestamp)}</span>
         </div>
       </article>
     \`).join('');
