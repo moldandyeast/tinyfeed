@@ -308,7 +308,8 @@ export function landingPage(baseUrl: string): string {
 
     <footer class="credits">
       <p>
-        set in <a href="https://github.com/productiontype/Newsreader" target="_blank" rel="noopener">Newsreader</a> 
+        <a href="https://github.com/moldandyeast/tinyfeed" target="_blank" rel="noopener">github</a>
+        · set in <a href="https://github.com/productiontype/Newsreader" target="_blank" rel="noopener">Newsreader</a> 
         & <a href="https://www.jetbrains.com/lp/mono/" target="_blank" rel="noopener">JetBrains Mono</a>
       </p>
     </footer>
