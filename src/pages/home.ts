@@ -10,30 +10,44 @@ export function homePage(baseUrl: string): string {
 
   async function loadFeeds() {
     const contacts = JSON.parse(localStorage.getItem('contacts') || '[]');
+    const myFeed = JSON.parse(localStorage.getItem('myFeed') || 'null');
     const postsContainer = document.getElementById('posts');
     const feedCount = document.getElementById('feed-count');
 
-    if (contacts.length === 0) {
+    // Build list of feeds to fetch (contacts + own feed)
+    const feedsToFetch = contacts.map(c => ({ id: c.id, name: c.name, url: c.url, isMe: false }));
+    
+    if (myFeed && myFeed.id) {
+      feedsToFetch.push({
+        id: myFeed.id,
+        name: null, // will get from API
+        url: window.location.origin + '/f/' + myFeed.id,
+        isMe: true
+      });
+    }
+
+    if (feedsToFetch.length === 0) {
       loading = false;
       postsContainer.innerHTML = \`
         <div class="empty">
-          <p>no contacts yet</p>
-          <p style="margin-top: 1rem;">visit a feed and click "+ contact" to follow them</p>
+          <p>nothing here yet</p>
+          <p style="margin-top: 1rem;">create a feed or add contacts to get started</p>
         </div>
       \`;
       feedCount.textContent = '0 feeds';
       return;
     }
 
-    feedCount.textContent = contacts.length + ' feed' + (contacts.length === 1 ? '' : 's');
+    const totalFeeds = feedsToFetch.length;
+    feedCount.textContent = totalFeeds + ' feed' + (totalFeeds === 1 ? '' : 's');
 
     // Fetch all feeds in parallel
     const results = await Promise.allSettled(
-      contacts.map(async (contact) => {
-        const res = await fetch('/api/feed/' + contact.id);
+      feedsToFetch.map(async (feed) => {
+        const res = await fetch('/api/feed/' + feed.id);
         if (!res.ok) return null;
         const data = await res.json();
-        return { contact, data };
+        return { feed, data };
       })
     );
 
@@ -41,13 +55,14 @@ export function homePage(baseUrl: string): string {
     posts = [];
     for (const result of results) {
       if (result.status === 'fulfilled' && result.value) {
-        const { contact, data } = result.value;
+        const { feed, data } = result.value;
         for (const post of data.posts) {
           posts.push({
             ...post,
-            authorId: contact.id,
-            authorName: data.name || contact.name || contact.id,
-            feedUrl: contact.url
+            authorId: feed.id,
+            authorName: data.name || feed.name || feed.id,
+            feedUrl: feed.url,
+            isMe: feed.isMe
           });
         }
       }
@@ -74,7 +89,7 @@ export function homePage(baseUrl: string): string {
         <p class="post-content">\${escapeHtml(post.content)}</p>
         \${post.url ? \`<a class="post-link" href="\${escapeHtml(post.url)}" target="_blank" rel="noopener">\${escapeHtml(new URL(post.url).hostname)}</a>\` : ''}
         <div class="post-meta">
-          <span class="post-time"><a href="\${post.feedUrl}">\${escapeHtml(post.authorName)}</a> · \${formatDate(post.timestamp)}</span>
+          <span class="post-time"><a href="\${post.feedUrl}">\${post.isMe ? 'you' : escapeHtml(post.authorName)}</a> · \${formatDate(post.timestamp)}</span>
         </div>
       </article>
     \`).join('');
