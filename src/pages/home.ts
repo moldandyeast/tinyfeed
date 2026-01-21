@@ -111,12 +111,7 @@ export function homePage(baseUrl: string): string {
 
   const content = `
     <header class="header">
-      <div class="header-top">
-        <h1 class="feed-name">home</h1>
-        <div class="header-actions">
-          <a href="/contacts" class="btn">contacts</a>
-        </div>
-      </div>
+      <h1 class="feed-name">home</h1>
     </header>
 
     <section class="posts" id="posts">

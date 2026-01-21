@@ -732,6 +732,7 @@ export function baseHtml(content: string, options: { title?: string; scripts?: s
       <a href="/" class="nav-brand">tinyfeed</a>
       <div class="nav-links">
         <a href="/home" id="nav-home" class="nav-hidden">home</a>
+        <a href="/contacts" id="nav-contacts" class="nav-hidden">contacts</a>
         <a href="#" id="nav-my-feed" class="nav-hidden">my feed</a>
       </div>
     </nav>
@@ -750,6 +751,13 @@ export function baseHtml(content: string, options: { title?: string; scripts?: s
       if (contacts.length > 0 || path === '/home') {
         homeLink.classList.remove('nav-hidden');
         if (path === '/home') homeLink.classList.add('active');
+      }
+
+      // Show contacts link if has contacts or on contacts page
+      const contactsLink = document.getElementById('nav-contacts');
+      if (contacts.length > 0 || path === '/contacts') {
+        contactsLink.classList.remove('nav-hidden');
+        if (path === '/contacts') contactsLink.classList.add('active');
       }
 
       // Show my feed link if has feed
